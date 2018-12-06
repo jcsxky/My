@@ -4,3 +4,6 @@ Read Committed级别出现两次查询结果不同：
 	2.事务B开启，修改id=1的记录
 	3.事务A查询id=1的记录已经改变
 Repeatable Read（可重读）：一直读的都是开启事务之前的数据。
+SET [SESSION | GLOBAL] TRANSACTION ISOLATION LEVEL {READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE}
+mysql> set global transaction isolation level read committed; //全局的
+mysql> set session transaction isolation level read committed; //当前会话
