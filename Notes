@@ -7,3 +7,15 @@ Repeatable Read（可重读）：一直读的都是开启事务之前的数据�
 SET [SESSION | GLOBAL] TRANSACTION ISOLATION LEVEL {READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE}
 mysql> set global transaction isolation level read committed; //全局的
 mysql> set session transaction isolation level read committed; //当前会话
+
+Error:
+### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exceeded; try restarting transaction
+### The error may involve com.homo.mapper.UsersMapper.updateByPrimaryKeySelective-Inline
+### The error occurred while setting parameters
+### SQL: update users      SET name = ?      where id = ?
+### Cause: com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exceeded; try restarting transaction
+; ]; Lock wait timeout exceeded; try restarting transaction; nested exception is com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException: Lock wait timeout exceeded; try restarting transaction
+
+Spring事务传播级别实现：通过不同的conn对象连接处理。有超时风险。
+conn1开启事务，更新某一行，取得行锁
+conn2开启事务更新同一行会抛超时异常。
