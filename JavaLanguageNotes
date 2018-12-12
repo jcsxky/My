@@ -1,0 +1,7 @@
+instanceof关键字分析：
+	每个类只会被同一个类加载器加载一次
+	classLoaderData.hpp:Klass* _klasses;// The classes defined by the class loader.
+	被加载的类通过add_class会被记录到_klasses字段。(instanceKlass.cpp:allocate_instance_klass函数中）加载时可以通过classLoaderData的contains_klass函数
+		判断当前类有没有被这个类加载器加载过。
+	如果类B被类加载器加载，B的父类为A，则B对应的Klass和通过系统类加载器加载的B类对应的Klass不同，其父类(Klass中的_super字段也不相同)。
+	此时调用Klass的is_subclass_of方法返回false。
